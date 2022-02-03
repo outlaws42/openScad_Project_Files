@@ -1,0 +1,21 @@
+{
+    "parameterSets": {
+        "design default values": {
+            "$fn": "256",
+            "Base_Length": "196.85",
+            "Base_Thickness": "4.75",
+            "Base_Width": "196.85",
+            "Half_Sphere_Radius": "76.2",
+            "Half_Sphere_Wall_Thickness": "5.08",
+            "Hose_Fitting_OD_Big": "102.387",
+            "Hose_Fitting_OD_Small": "101",
+            "Hose_Fitting_Straight_Length": "6.35",
+            "Hose_Fitting_Taper_Distance": "39.751",
+            "Hose_Fitting_Wall_Thickness": "5.08",
+            "Inside_Diameter_Extension_Length": "2",
+            "Screw_Hole_Diameter": "4.75",
+            "Screw_Holes_On": "true"
+        }
+    },
+    "fileFormatVersion": "1"
+}
