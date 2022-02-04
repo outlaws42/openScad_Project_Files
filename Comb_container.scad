@@ -1,18 +1,21 @@
 /* [Model Resolution (All dimensions are in Millimeters)] */
 $fn = 256;
 
-/* [Cylinder (Inside Diameter)] */
-Diameter = 54.102; // 2.130"
-Height = 63.5; // 2.5"
-Wall_Thickness = 2.54; // .100"
-Floor_Thickness = 6.3; //.25"
-Screw_Hole_Diameter = 5.08; // .20"
-Chamfer_Adjust = 5.0; 
+/* [Cylinder Properties (Inside Diameter)] */
+Diameter = 54.102;
+Height = 63.5;
+Wall_Thickness = 2.54;
+Floor_Thickness = 6.3;
+
+/* [Screw Hole Properties] */
+Screw_Hole_On = true;
+Screw_Hole_Diameter = 5.08;
+Chamfer_Adjust = 3.5; 
 
 // Outside Dimensions
 difference() { 
  cylinder(
-   Height,
+   h=Height+Floor_Thickness,
    d=(Diameter+(Wall_Thickness*2)),
    center=false
   );
@@ -23,19 +26,25 @@ difference() {
    d=Diameter,
    center=false
   );
-  // Screw Hole
-  translate([0,0,-Floor_Thickness])
-  cylinder(
-   150,
-   d=Screw_Hole_Diameter,
-   center=false
-  );
-  // Chamfer
-  translate([0,0,Floor_Thickness-Chamfer_Adjust])
-  cylinder(
-   h=5,
-   d1=1,
-   d2=Screw_Hole_Diameter*2,
-   center=false
-  );
+  if(Screw_Hole_On==true) {
+    // Screw Hole
+    translate([0,0,-Floor_Thickness])
+    cylinder(
+      h=Floor_Thickness+30,
+      d=Screw_Hole_Diameter,
+      center=false
+    );
+    // Chamfer
+    translate([0,0,Floor_Thickness-Chamfer_Adjust])
+    cylinder(
+      h=Screw_Hole_Diameter,
+      d1=Screw_Hole_Diameter,
+      d2=Screw_Hole_Diameter*2,
+      center=false
+    );
+
+  }
+  
 };
+
+

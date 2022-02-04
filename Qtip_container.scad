@@ -1,31 +1,115 @@
-// All units are in Milimeter
+/* [Model Resolution (All dimensions are in Millimeters)] */
 $fn = 256;
 
-//Q-tip container
-qtLt = 73.025; // 2.875"
-qtWt = 19.05; // .75"
-qtHt = 25.4; // Box 2.875", Container Depth 1.0" 
-qtfit = .889; // .035"
-qtThickness = 2.54; // .100"
+/* [Box Container Properties(Inside Diameter)] */
 
-// Q-Tip container 
-difference(){
-  cube([
-    (qtLt+qtfit+(qtThickness*2)),
-    (qtWt+qtfit+(qtThickness*2)),
-    qtHt
-    ],
-    center=false
-    );
-  translate([qtThickness,qtThickness,qtThickness]){
-    cube([
-      qtLt+qtfit,
-      qtWt+qtfit,
-      qtHt
-      ],
-      center=false
-      );
-  };
-  
+Length = 73.025;
+Width = 19.05; 
+Fit = .889;
+Height = 25.4;
+Wall_Thickness = 2.54;
+Floor_Thickness = 6.3;
 
+/* [Screw Hole Properties] */
+Screw_Holes_On = false;
+Screw_Hole_Diameter = 5.08;
+Amount_Of_Screw_Holes = 2;
+Chamfer_Adjust = 3.5;
+
+
+difference()
+{   
+    // Outside Dimensions
+    cube([ 
+        Length+Fit+(Wall_Thickness * 2), 
+        Width+Fit+(Wall_Thickness * 2), 
+        Height ],
+         center = false);
+    // Inside Dimensions
+    translate([ 
+        Wall_Thickness, 
+        Wall_Thickness, 
+        Floor_Thickness])
+        cube([ Length+Fit, Width+Fit, Height], center = false);
+    if(Screw_Holes_On==true){
+        // Screw Hole
+        for (x = [1:Amount_Of_Screw_Holes])
+            screwHoleBox(x,
+                        Width+Fit,
+                        Length+Fit,
+                        Screw_Hole_Diameter,
+                        Wall_Thickness,
+                        Floor_Thickness,
+                        Amount_Of_Screw_Holes);
+        // Chamfer
+        for(x=[1:Amount_Of_Screw_Holes])
+        chamferHoleBox(
+        x,
+        Width+Fit,
+        Length+Fit,
+        Screw_Hole_Diameter,
+        Wall_Thickness,
+        Floor_Thickness,
+        Amount_Of_Screw_Holes,
+        Chamfer_Adjust);
+    }
+    
 };
+
+// Screw Hole
+module
+screwHoleBox(xPos,
+             width,
+             length,
+             screwHoleDiameter,
+             wallThickness,
+             floorThickness,
+             screwHoleAmount)
+{
+    translate([
+        wallThickness +
+           round(xPos*(length / (screwHoleAmount+1))),
+        wallThickness + (width / 2),
+        -floorThickness
+    ]) cylinder(
+        h = floorThickness+30, 
+        d = screwHoleDiameter, 
+        center = false);
+}
+
+module
+chamferHoleBox(xPos,
+               width,
+               length,
+               screwHoleDiameter,
+               wallThickness,
+               floorThickness,
+               screwHoleAmount,
+               chamferAdjust)
+{
+    translate([
+        wallThickness + 
+        round(xPos * (length / (screwHoleAmount+1))),
+        wallThickness + (width / 2),
+        floorThickness -
+        chamferAdjust
+    ]) cylinder(
+        h = screwHoleDiameter, 
+        d1 = screwHoleDiameter, 
+        d2 = screwHoleDiameter*2, 
+        center = false
+        );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
