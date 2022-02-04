@@ -1,27 +1,27 @@
-// All units are in Milimeter
+/* [Model Resolution (All dimensions are in Millimeters)] */
 $fn = 256;
 
-//Floss container
-flossLt = 48.006; // 1.89"
-flossWt = 14.732; // .580"
-flossHt = 25.4; // Box 2.300", Container Depth 1.0"
-flossfit = .889; // .035"
-flossThickness = 2.54; // .100"
+/* [Box Container (Inside Diameter)] */
+Length = 48.00; // 1.89"
+Width = 14.732; // .580"
+Height = 25.4; // 1.0"
+Wall_Thickness = 2.54; // .100"
+Fit = .889; // .035
 
-// Floss container 
+  // Box Container No Screws 
 difference(){
   cube([
-    (flossLt+flossfit+(flossThickness*2)),
-    (flossWt+flossfit+(flossThickness*2)),
-    flossHt
+    (Length +Fit+(Wall_Thickness*2)),
+    (Width+Fit+(Wall_Thickness*2)),
+    Height
     ],
     center=false
   );
-  translate([flossThickness,flossThickness,flossThickness]){
+  translate([Wall_Thickness,Wall_Thickness,Wall_Thickness]){
     cube(
-      [flossLt+flossfit,
-      flossWt+flossfit,
-      flossHt],
+      [Length+Fit,
+      Width+Fit,
+      Height],
       center=false
     );
   };
