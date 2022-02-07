@@ -1,3 +1,4 @@
+// This file requires "Dust_Collection_Modules.scad" modules file.
 use <Dust_Collection_Modules.scad>
 
 /* [Resolution of Model (All Units in Millimeters)] */
@@ -6,11 +7,11 @@ $fn = 256;
 // This will create a dust hood for collection
 
 /* [Hose Fitting Settings] */
-Hose_Fitting_OD_Big = 102.387;        
-Hose_Fitting_OD_Small = 101;          
-Hose_Fitting_Taper_Distance = 39.751; 
-Hose_Fitting_Wall_Thickness = 5.08;   
-Hose_Fitting_Straight_Length = 6.35;  
+Fitting_OD_Big = 102.387;        
+Fitting_OD_Small = 101;          
+Fitting_Taper_Distance = 39.751; 
+Fitting_Wall_Thickness = 5.08;   
+Fitting_Straight_Length = 6.35;  
 
 /* [Sphere Settings] */
 Half_Sphere_Radius = 76.2;         
@@ -66,18 +67,18 @@ difference()
     translate([ 0, 0,0 ])
     cylinder(
         h=Half_Sphere_Radius + Inside_Diameter_Extension_Length ,
-        d = Hose_Fitting_OD_Big - (Hose_Fitting_Wall_Thickness * 2),
+        d = Fitting_OD_Big - (Fitting_Wall_Thickness * 2),
         center = false);
 }; // close difference from fitting
 
 translate([0,0,Half_Sphere_Radius+Base_Thickness/2-25])
 // Imported from Dust_Collection_Modules.scad
 OD_Fitting(
-Hose_Fitting_Taper_Distance,
-Hose_Fitting_OD_Big,
-Hose_Fitting_OD_Small,
-Hose_Fitting_Wall_Thickness,
-Hose_Fitting_Straight_Length,
+Fitting_Taper_Distance,
+Fitting_OD_Big,
+Fitting_OD_Small,
+Fitting_Wall_Thickness,
+Fitting_Straight_Length,
 Inside_Diameter_Extension_Length,
 false
 );

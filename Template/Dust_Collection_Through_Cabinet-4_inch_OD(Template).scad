@@ -1,3 +1,4 @@
+// This file requires "Dust_Collection_Modules.scad" modules file.
 use <Dust_Collection_Modules.scad>
 
 /* [Resolution of Model (All Units in Millimeters)] */
@@ -55,8 +56,13 @@ rotate([0,180,0]){
              Fitting_OD_Big
              );
             
-            Screw_Holes(
-                Base_Width, Base_Thickness, Base_Length, Screw_Hole_Diameter);
+            Screw_Holes_Square_Pattern(
+                Base_Width, 
+                Base_Thickness, 
+                Base_Length, 
+                Screw_Hole_Diameter
+                );
+
         }; // difference screw holes in base
     }      // close  If  statement
 
@@ -70,119 +76,28 @@ rotate([0,180,0]){
              );
     } // close else  statement
 
-// // OD Fitting module. A hose or another fitting goes over
-// // this fitting.
-// module Fitting(
-//   fittingTaperDistance,
-//   fittingODBig,
-//   fittingODSmall,
-//   fittingWallThickness,
-//   fittingStraightLength,
-//   idExtensionLength,
-//   baseThickness,
-//   cntr = false
-// ){
-  
-//   difference(){
-//     // OD Straight Section
-//     translate([ 0, 0,0])
-//         cylinder(
-//           h=fittingStraightLength, 
-//           d = fittingODBig, 
-//           center = cntr);
-//     // ID Straight Section    
-//     translate([ 0, 0,-idExtensionLength])
-//         cylinder(
-//           h=fittingStraightLength + baseThickness, 
-//           d = fittingODBig-(fittingWallThickness*2), 
-//           center = cntr);
-//   }
-//   difference(){
-//     // OD taper section
-//     translate(
-//         [ 0, 0, fittingStraightLength ])
-//         cylinder(h=fittingTaperDistance,
-//                  d1 = fittingODBig,
-//                  d2 = fittingODSmall,
-//                  center = cntr);
-//     // ID taper section
-//     translate([ 0, 0, fittingStraightLength-idExtensionLength])
-//         cylinder(
-//             h=fittingTaperDistance + idExtensionLength+1,
-//             d1 = fittingODBig - (fittingWallThickness * 2),
-//             d2 = fittingODSmall- (fittingWallThickness * 2),
-//             center = false);
 
-//   }
+// Modules used
 
-    
-// };
+// OD_Fitting(
+    // fittingTaperDistance,
+    // fittingODBig,
+    // fittingODSmall,
+    // fittingWallThickness,
+    // fittingStraightLength,
+    // idExtensionLength,)
 
 
-// Screw holes definition
-module
-Screw_Holes(baseWidth, baseThickness, baseLength, screwHoleDiameter)
-{
-    for (i = [-baseLength / 2 + screwHoleDiameter:65:baseLength / 2 - screwHoleDiameter])
-        translate([ -baseWidth / 2 + screwHoleDiameter, i, -baseThickness / 2 ])
-            cylinder(baseThickness * 2,
-                     d1 = screwHoleDiameter,
-                     d2 = screwHoleDiameter,
-                     center = false);
+// Screw_Holes_Square_Pattern(yAxis, thickness, xAxis, screwHoleDiameter)
 
-    for (i = [-baseWidth / 2 + screwHoleDiameter:65:baseWidth / 2 - screwHoleDiameter])
-        translate([ i, -baseLength / 2 + screwHoleDiameter, -baseThickness / 2 ])
-            cylinder(baseThickness * 2,
-                     d1 = screwHoleDiameter,
-                     d2 = screwHoleDiameter,
-                     center = false);
-
-    for (i = [-baseLength / 2 + screwHoleDiameter:65:baseLength / 2 - screwHoleDiameter])
-        translate([ baseWidth / 2 - screwHoleDiameter, i, -baseThickness / 2 ])
-            cylinder(baseThickness * 2,
-                     d1 = screwHoleDiameter,
-                     d2 = screwHoleDiameter,
-                     center = false);
-
-    for (i = [-baseWidth / 2 + screwHoleDiameter:60:baseWidth / 2 - screwHoleDiameter])
-        translate([ i, baseLength / 2 - screwHoleDiameter, -baseThickness / 2 ])
-            cylinder(baseThickness * 2,
-                     d1 = screwHoleDiameter,
-                     d2 = screwHoleDiameter,
-                     center = false);
-};
-
-
-// // Base definition with ID through the base.
-// module
 // Base(baseWidth,
 //      baseThickness,
 //      baseLength,
 //      fittingWallThickness,
 //      fittingODBig,
 //      cntr = true
-
 // )
-// {
-//     difference()
-//     {
-//         translate([ 0, 0, baseThickness / 2 ])
-//             cube([ baseWidth, baseLength, baseThickness ], center = cntr);
-//         // translate([ 0, 0, 0 ])
-//         //     cylinder(
-//         //              h=baseThickness,
-//         //              d1 = baseLength,
-//         //              d2 = baseLength,
-//         //              center = false);
-//         translate([ 0, 0,-2 ])
-//             cylinder(
-//                      h=baseThickness*2,
-//                      d1 = fittingODBig - (fittingWallThickness*2),
-//                      d2 = fittingODBig - (fittingWallThickness*2),
-//                      center = false);
-//     };
-    
-// };
+
 
 
 
