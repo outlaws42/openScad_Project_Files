@@ -1,3 +1,8 @@
+// This model uses the "Chamfers-for-OpenSCAD" library
+// You can get it here https://freesoft.dev/program/50741079    
+include <Chamfers-for-OpenSCAD/Chamfer.scad>;
+
+
 /* [Model Resolution (All dimensions are in Millimeters)] */
 $fn = 256;
 
@@ -7,13 +12,17 @@ Height = 3;
 Wall_Thickness = 1.25;
 Floor_Thickness = 1.25;
 
+/* [Grid Properties] */
+Amount_Along_X_Axis = 2;
+Amount_Along_Y_Axis = 2;
+
 /* [Window Properties] */
 Window_Size_Difference = 7;
 
 /* [Hidden] */
 Id_Adjustment =1;
 
-Grid(3,3,Size)
+Grid(Amount_Along_X_Axis,Amount_Along_Y_Axis,Size)
 Outside_Box_With_Window(
   Size,
   Size,
@@ -23,6 +32,9 @@ Outside_Box_With_Window(
   Id_Adjustment
   );
 
+// translate([0,0,1.5])
+// chamferCube([Size,Size,10],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],3);
+
 module Outside_Box_With_Window(
   length,
   width,
@@ -31,6 +43,7 @@ module Outside_Box_With_Window(
   floorThickness,
   idAdjustment = 1
   ){
+    chamferCubeSizeAdjust = .24;
   difference()
 {   
     // Outside Dimensions
@@ -39,6 +52,14 @@ module Outside_Box_With_Window(
         width, 
         height ],
          center = false);
+    // Chamfer
+    translate([-chamferCubeSizeAdjust ,-chamferCubeSizeAdjust ,floorThickness])
+    chamferCube([
+      length+(chamferCubeSizeAdjust *2),
+      width+(chamferCubeSizeAdjust *2),
+      10],
+      [[1,1,0,0],[1,0,0,1],[0,0,0,0]],
+      1.5);
     // Inside Dimensions
     translate([ 
         wallThickness, 
@@ -67,9 +88,9 @@ module Outside_Box_With_Window(
 //cube(h=)
 //cylinder(r=2,h=5,center=false);
 
-module Grid(x_axis,y_axis,space){
-  for (x=[1:space:x_axis*space]){
-    for(y=[1:space:y_axis*space]){
+module Grid(xAmount,yAmount,space){
+  for (x=[1:space:xAmount*space]){
+    for(y=[1:space:yAmount*space]){
       translate([x,y,0]){
       children();
     }
