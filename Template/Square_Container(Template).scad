@@ -9,7 +9,7 @@ $fn = 256;
 /* [Box Container Properties] */
 Size = 50;
 Height = 3;
-Wall_Thickness = 1.25;
+Wall_Thickness = 2.54;
 Floor_Thickness = 1.25;
 
 /* [Grid Properties] */
@@ -22,18 +22,90 @@ Window_Size_Difference = 7;
 /* [Hidden] */
 Id_Adjustment =1;
 
-Grid(Amount_Along_X_Axis,Amount_Along_Y_Axis,Size)
-Outside_Box_With_Window(
+Box(
   Size,
   Size,
-  Height,
+  50,
   Wall_Thickness,
   Floor_Thickness,
-  Id_Adjustment
-  );
+  Amount_Along_X_Axis,
+  Amount_Along_Y_Axis
+);
 
-translate([0,0,Floor_Thickness])
- chamferCube([Size,Size,2],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],1.5);
+// Grid(Amount_Along_X_Axis,Amount_Along_Y_Axis,Size)
+// Outside_Box_With_Window(
+//   Size,
+//   Size,
+//   Height,
+//   Wall_Thickness,
+//   Floor_Thickness,
+//   Id_Adjustment
+//   );
+
+// translate([0,0,Floor_Thickness])
+//  chamferCube([Size,Size,2],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],1.5);
+
+Grid(Amount_Along_X_Axis,Amount_Along_Y_Axis,Size)
+Base_Enterface(Size,Size,2);
+module Base_Enterface(
+ length,
+ width,
+ height
+){
+  // Chamfer
+  //  translate([-chamferCubeSizeAdj ,-chamferCubeSizeAdjust ,0])
+    chamferCube([
+      length,
+      width,
+      height],
+      [[1,1,0,0],[1,0,0,1],[0,0,0,0]],
+      1.5);
+}
+ module Box(
+   length,
+   width,
+   height,
+   wallThickness,
+   floorThickness,
+   amountAlongXAxis,
+   amountAlongYAxis
+ ){
+  //  gridSize = amountAlongXAxis*amountAlongYAxis
+   sizeX = length*amountAlongXAxis;
+   sizeY = width*amountAlongYAxis;
+   tabX = 12;
+   tabY = 25;
+   tabHeight = 12;
+
+    translate([wallThickness ,((sizeY-(wallThickness)/2)/2)-(tabY/2) ,height+2-tabHeight])
+    chamferCube([
+      tabX,
+      tabY,
+      tabHeight],
+      [[0,0,0,0],[0,0,0,1],[0,0,0,0]],
+      11);
+  
+   // Outside Dimensions
+    translate([0,0,2])
+    difference(){
+      cube([ 
+        sizeX, 
+        sizeY, 
+        height ],
+         center = false);
+    // Inside Dimensions
+    translate([ 
+        wallThickness, 
+        wallThickness, 
+        floorThickness])
+        cube([ 
+          sizeX-wallThickness*2, 
+          sizeY-wallThickness*2, 
+          height], 
+          center = false);
+    }
+    
+ }
 
 module Outside_Box_With_Window(
   length,
