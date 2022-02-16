@@ -8,16 +8,24 @@ $fn = 256;
 
 /* [Box Container Properties] */
 Size = 50;
-Height = 3;
-Wall_Thickness = 2.54;
-Floor_Thickness = 1.25;
+Height = 45;
+Wall_Thickness = 1.27;
+Floor_Thickness = 1.27;
 
 /* [Grid Properties] */
+Grid_Height = 3;
 Amount_Along_X_Axis = 2;
 Amount_Along_Y_Axis = 2;
 
-/* [Window Properties] */
-Window_Size_Difference = 7;
+/* [Name Tag Properties] */
+Name_Tag_On = true;
+// Size in the Y-Axis
+Length = 40;
+//Size in the Axis
+Width = 12.7;
+//Height of the name tag
+Name_Tag_Height = 12; 
+Chamfer_Amount = 11.5;
 
 /* [Hidden] */
 Id_Adjustment =1;
@@ -25,41 +33,48 @@ Id_Adjustment =1;
 Box(
   Size,
   Size,
-  50,
+  Height-Grid_Height,
   Wall_Thickness,
   Floor_Thickness,
   Amount_Along_X_Axis,
-  Amount_Along_Y_Axis
+  Amount_Along_Y_Axis,
+  gridHeight = Grid_Height
 );
 
-// Grid(Amount_Along_X_Axis,Amount_Along_Y_Axis,Size)
-// Outside_Box_With_Window(
-//   Size,
-//   Size,
-//   Height,
-//   Wall_Thickness,
-//   Floor_Thickness,
-//   Id_Adjustment
-//   );
-
-// translate([0,0,Floor_Thickness])
-//  chamferCube([Size,Size,2],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],1.5);
+Name_Tag(
+      Width,
+      Length,
+      Name_Tag_Height,
+      boxY = Size,
+      boxHeight= Height,
+      amountAlongYAxis= Amount_Along_Y_Axis
+    );
 
 Grid(Amount_Along_X_Axis,Amount_Along_Y_Axis,Size)
-Base_Enterface(Size,Size,2);
+Base_Enterface(
+  Size,
+  Size,
+  Grid_Height,
+  Wall_Thickness,
+  Floor_Thickness
+  );
 module Base_Enterface(
  length,
  width,
- height
+ height,
+ wallThickness,
+ floorThickness
 ){
   // Chamfer
   //  translate([-chamferCubeSizeAdj ,-chamferCubeSizeAdjust ,0])
+
     chamferCube([
       length,
       width,
       height],
       [[1,1,0,0],[1,0,0,1],[0,0,0,0]],
-      1.5);
+      1.5);  
+    
 }
  module Box(
    length,
@@ -68,25 +83,18 @@ module Base_Enterface(
    wallThickness,
    floorThickness,
    amountAlongXAxis,
-   amountAlongYAxis
+   amountAlongYAxis,
+   gridHeight
  ){
-  //  gridSize = amountAlongXAxis*amountAlongYAxis
    sizeX = length*amountAlongXAxis;
    sizeY = width*amountAlongYAxis;
-   tabX = 12;
-   tabY = 25;
-   tabHeight = 12;
-
-    translate([wallThickness ,((sizeY-(wallThickness)/2)/2)-(tabY/2) ,height+2-tabHeight])
-    chamferCube([
-      tabX,
-      tabY,
-      tabHeight],
-      [[0,0,0,0],[0,0,0,1],[0,0,0,0]],
-      11);
-  
+  //  tabX = 12.7;
+  //  tabY = 40;
+  //  tabYInternal = 20;
+  //  tabHeight = 12;
+   
    // Outside Dimensions
-    translate([0,0,2])
+    translate([0,0,gridHeight])
     difference(){
       cube([ 
         sizeX, 
@@ -106,6 +114,30 @@ module Base_Enterface(
     }
     
  }
+
+module Name_Tag(
+  tagX,
+  tagY,
+  tagHeight,
+  chamferAmount=11.5,
+  boxWallThickness=1.27,
+  boxY=50,
+  boxHeight=50,
+  amountAlongYAxis=1,
+  ){
+    sizeY=boxY*amountAlongYAxis;
+  translate([
+       boxWallThickness ,
+       ((sizeY-(boxWallThickness)/2)/2)-(tagY/2) ,
+       boxHeight-tagHeight
+       ])
+    chamferCube([
+      tagX,
+      tagY,
+      tagHeight],
+      [[0,0,0,0],[0,0,0,1],[0,0,0,0]],
+      chamferAmount);
+}
 
 module Outside_Box_With_Window(
   length,
