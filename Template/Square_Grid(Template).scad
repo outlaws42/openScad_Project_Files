@@ -7,14 +7,14 @@ include <Chamfers-for-OpenSCAD/Chamfer.scad>;
 $fn = 256;
 
 /* [Box Container Properties] */
-Size = 50;
+Size = 55;
 Height = 3;
 Wall_Thickness = 1.25;
 Floor_Thickness = 1.25;
 
 /* [Grid Properties] */
-Amount_Along_X_Axis = 2;
-Amount_Along_Y_Axis = 2;
+Amount_Along_X_Axis = 1;
+Amount_Along_Y_Axis = 1;
 
 /* [Window Properties] */
 Window_Size_Difference = 7;
@@ -32,8 +32,8 @@ Outside_Box_With_Window(
   Id_Adjustment
   );
 
-translate([0,0,Floor_Thickness])
- chamferCube([Size,Size,2],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],1.5);
+// translate([0,0,Floor_Thickness])
+//  chamferCube([Size,Size,2],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],1.5);
 
 module Outside_Box_With_Window(
   length,
