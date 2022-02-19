@@ -13,7 +13,7 @@ Wall_Thickness = 1.27;
 Floor_Thickness = 1.27;
 
 /* [Grid Properties] */
-Grid_Height = 3;
+Grid_Height = 4.0;
 Amount_Along_X_Axis = 1;
 Amount_Along_Y_Axis = 1;
 
@@ -57,15 +57,13 @@ Base_Enterface(
   length = Size,
   width = Size,
   height = Grid_Height,
-  wallThickness = Wall_Thickness,
   floorThickness = Floor_Thickness
   );
 module Base_Enterface(
  length = 50,
  width = 50,
  height = 50,
- wallThickness = 1.27,
- floorThickness = 1.27
+ floorThickness = 4.0
 ){
   // Chamfer
   //  translate([-chamferCubeSizeAdj ,-chamferCubeSizeAdjust ,0])
@@ -75,7 +73,7 @@ module Base_Enterface(
       width,
       height],
       [[1,1,0,0],[1,0,0,1],[0,0,0,0]],
-      1.5);  
+      height);  
     
 }
  module Box_Outside(

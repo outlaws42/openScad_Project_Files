@@ -8,8 +8,8 @@ $fn = 256;
 
 /* [Box Container Properties] */
 Size = 55;
-Height = 3;
-Wall_Thickness = 1.25;
+Height = 4.0;
+// Wall_Thickness = 3.0;
 Floor_Thickness = 1.25;
 
 /* [Grid Properties] */
@@ -22,18 +22,21 @@ Window_Size_Difference = 7;
 /* [Hidden] */
 Id_Adjustment =1;
 
-Grid(Amount_Along_X_Axis,Amount_Along_Y_Axis,Size)
+Grid(
+  xAmount = Amount_Along_X_Axis,
+  yAmount = Amount_Along_Y_Axis,
+  space = Size)
 Outside_Box_With_Window(
-  Size,
-  Size,
-  Height,
-  Wall_Thickness,
-  Floor_Thickness,
-  Id_Adjustment
+  length = Size,
+  width = Size,
+  height = Height+Floor_Thickness,
+  wallThickness = Height,
+  floorThickness = Floor_Thickness,
+  idAdjustment = Id_Adjustment
   );
 
 // translate([0,0,Floor_Thickness])
-//  chamferCube([Size,Size,2],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],1.5);
+//  chamferCube([Size,Size,Height],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],Height);
 
 module Outside_Box_With_Window(
   length,
@@ -59,7 +62,7 @@ module Outside_Box_With_Window(
       width+(chamferCubeSizeAdjust *2),
       10],
       [[1,1,0,0],[1,0,0,1],[0,0,0,0]],
-      1.5);
+      wallThickness);
     // Inside Dimensions
     translate([ 
         wallThickness, 
