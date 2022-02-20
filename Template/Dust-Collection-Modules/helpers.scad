@@ -1,12 +1,12 @@
 // OD Fitting module. A hose or another fitting goes over
 // this fitting.
 module OD_Fitting(
-  fittingTaperDistance,
-  fittingODBig,
-  fittingODSmall,
-  fittingWallThickness,
-  fittingStraightLength,
-  idExtensionLength,
+  fittingTaperDistance = 39,
+  fittingODBig = 102.387,
+  fittingODSmall = 101,
+  fittingWallThickness = 5.08,
+  fittingStraightLength = 6.35,
+  idExtensionLength = 2,
   cntr = false
 ){
   
@@ -47,12 +47,14 @@ module OD_Fitting(
 
 // Base definition with ID through the base.
 module
-Base(baseWidth,
-     baseThickness,
-     baseLength,
-     fittingWallThickness,
-     fittingODBig,
-     cntr = true
+Base(
+    baseWidth = 50,
+    baseThickness = 6.35,
+    baseLength = 50,
+    fittingWallThickness = 2.54,
+    fittingODBig = 101.6,
+    useID = true,
+    cntr = true
 
 )
 {
@@ -66,6 +68,7 @@ Base(baseWidth,
         //              d1 = baseLength,
         //              d2 = baseLength,
         //              center = false);
+        if(useID == true)
         translate([ 0, 0,-2 ])
             cylinder(
                      h=baseThickness*2,
@@ -78,7 +81,10 @@ Base(baseWidth,
 
 // Sphere  definition
 module
-Half_Sphere(radius, wallThickness)
+Half_Sphere(
+    radius = 76, 
+    wallThickness = 5.08
+    )
 {
      difference()
     {

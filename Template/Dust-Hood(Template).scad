@@ -1,5 +1,5 @@
 // This file requires "Dust_Collection_Modules.scad" modules file.
-use <Dust_Collection_Modules.scad>
+include <Dust-Collection-Modules/helpers.scad>;
 
 /* [Resolution of Model (All Units in Millimeters)] */
 $fn = 256;
@@ -30,9 +30,6 @@ Base_Length = 196.85;
 // Extra for ID extension
 Inside_Diameter_Extension_Length = 2;
 
- 
-// Screw holes in base if = true
-if (Screw_Holes_On == true) {
     difference()
     {
         // Imported from Dust_Collection_Modules.scad
@@ -42,22 +39,10 @@ if (Screw_Holes_On == true) {
                 Half_Sphere_Wall_Thickness,
                 Half_Sphere_Radius*2
                 );
-
+        if(Screw_Holes_On == true)
         Screw_Holes_Square_Pattern(
             Base_Width, Base_Thickness, Base_Length, Screw_Hole_Diameter);
     }; // difference screw holes in base
-}      // close  If  statement
-
-// else not 1 base without screw holes
-else {
-    // Imported from Dust_Collection_Modules.scad
-    Base(Base_Width,
-            Base_Thickness,
-            Base_Length,
-            Half_Sphere_Wall_Thickness,
-            Half_Sphere_Radius*2
-            );
-} // close else  statement
 
 // Plung ID of the fitting through the top of the sphere
 difference()

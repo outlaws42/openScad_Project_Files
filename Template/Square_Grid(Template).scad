@@ -6,10 +6,9 @@ include <Chamfers-for-OpenSCAD/Chamfer.scad>;
 /* [Model Resolution (All dimensions are in Millimeters)] */
 $fn = 256;
 
-/* [Box Container Properties] */
+/* [Retention Square Properties] */
 Size = 55;
-Height = 4.0;
-// Wall_Thickness = 3.0;
+Wall_Height = 4.0;
 Floor_Thickness = 1.25;
 
 /* [Grid Properties] */
@@ -29,14 +28,14 @@ Grid(
 Outside_Box_With_Window(
   length = Size,
   width = Size,
-  height = Height+Floor_Thickness,
-  wallThickness = Height,
+  height = Wall_Height+Floor_Thickness,
+  wallThickness = Wall_Height,
   floorThickness = Floor_Thickness,
   idAdjustment = Id_Adjustment
   );
 
 // translate([0,0,Floor_Thickness])
-//  chamferCube([Size,Size,Height],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],Height);
+//  chamferCube([Size,Size,Wall_Height],[[1,1,0,0],[1,0,0,1],[0,0,0,0]],Wall_Height);
 
 module Outside_Box_With_Window(
   length,
@@ -87,9 +86,6 @@ module Outside_Box_With_Window(
     
 };
 }
-//Grid(10,26,9)
-//cube(h=)
-//cylinder(r=2,h=5,center=false);
 
 module Grid(xAmount,yAmount,space){
   for (x=[0:space:(xAmount-1)*space]){

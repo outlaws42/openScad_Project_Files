@@ -1,5 +1,5 @@
-// This file requires "Dust_Collection_Modules.scad" modules file.
-use <Dust_Collection_Modules.scad>
+// This file requires "Dust-Collection-Modules/helpers.scad" modules file.
+include <Dust-Collection-Modules/helpers.scad>;
 
 /* [Resolution of Model (All Units in Millimeters)] */
 $fn = 256;
@@ -45,8 +45,6 @@ rotate([0,180,0]){
                    false);
 }
 
-    // Screw holes in base if = true
-    if (Screw_Holes_On == true) {
         difference()
         {
             Base(Base_Width,
@@ -55,7 +53,7 @@ rotate([0,180,0]){
              Fitting_Wall_Thickness,
              Fitting_OD_Big
              );
-            
+            if (Screw_Holes_On == true) 
             Screw_Holes_Square_Pattern(
                 Base_Width, 
                 Base_Thickness, 
@@ -64,19 +62,7 @@ rotate([0,180,0]){
                 );
 
         }; // difference screw holes in base
-    }      // close  If  statement
-
-    // else not 1 base without screw holes
-    else {
-        Base(Base_Width,
-             Base_Thickness,
-             Base_Length,
-             Fitting_Wall_Thickness,
-             Fitting_OD_Big
-             );
-    } // close else  statement
-
-
+ 
 // Modules used
 
 // OD_Fitting(
