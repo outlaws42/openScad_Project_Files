@@ -8,17 +8,17 @@ $fn = 256;
 
 /* [Box Container Properties] */
 Size = 55;
-Height = 50;
+Height = 12;
 Wall_Thickness = 1.27;
 Floor_Thickness = 1.27;
 
 /* [Grid Properties] */
-Grid_Height = 4.0;
+Grid_Height = 6.35;
 Amount_Along_X_Axis = 1;
-Amount_Along_Y_Axis = 1;
+Amount_Along_Y_Axis = 2;
 
 /* [Name Tag Properties] */
-Name_Tag_On = true;
+Name_Tag_On = false;
 // Size in the Y-Axis
 Length = 40;
 //Size in the Axis
