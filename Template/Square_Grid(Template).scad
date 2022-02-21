@@ -34,6 +34,17 @@ Square_Containment(
   idAdjustment = Id_Adjustment
   );
 
+// remove = 1;
+// translate([ 
+//         Wall_Height+((Size-Size)-remove/2), 
+//         Wall_Height+((Size-Size)-remove/2), 
+//         -Id_Adjustment])
+//         cube([ 
+//           ((Size-(Wall_Height*2))+remove), 
+//           (Size-(Wall_Height*2))+remove, 
+//           Wall_Height+Id_Adjustment], 
+//           center = false);
+
 // Box_Outside(
 //   length = Size,
 //   width = Size,
@@ -56,6 +67,7 @@ module Square_Containment(
   idAdjustment = 1
   ){
     chamferCubeSizeAdjust = .24;
+    deburr = .6;
   difference()
 {   
     // Outside Dimensions
@@ -83,6 +95,16 @@ module Square_Containment(
     //       height], 
     //       center = false);
     
+    // Internal Adjustment
+    translate([ 
+        wallThickness+((length-length)-deburr/2), 
+        wallThickness+((width-width)-deburr/2), 
+        -idAdjustment])
+        cube([ 
+          ((length-(wallThickness*2))+deburr), 
+          ((width-(wallThickness*2))+deburr), 
+          height+idAdjustment], 
+          center = false);
     // // Internal Window
     // translate([ 
     //     wallThickness+((length-length)+(Window_Size_Difference/2)), 
