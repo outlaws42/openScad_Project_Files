@@ -1,6 +1,3 @@
-// This file requires "/roundcube.scad" modules file.
-include <Module_Collection.scad>;
-
 /* [Model Resolution (All dimensions are in Millimeters)] */
 $fn = 256;
 
@@ -17,10 +14,7 @@ Switch_Width = 21.209; // .835"
 Switch_Height = Height+5;
 
 /* [Screw Hole Properties] */
-Screw_Holes_On = true;
-Screw_Hole_Diameter = 5.715;
-Amount_Of_Screw_Holes = 2;
-Chamfer_Adjust = 3.5;
+Screw_Hole_Diameter = 5.715; // .225"
 
 //Plate_Properties();
 difference(){
@@ -28,7 +22,7 @@ cuberad(
         Length, 
         Width, 
         Height,
-        7.62,
+        7.62*2,
         "corner"
         );
  
@@ -36,7 +30,8 @@ color("red" )
 cube([ 
         Switch_Width, 
         Switch_Length, 
-        Switch_Height ],
+        Switch_Height 
+    ],
          center = true);  
 Holes();
 };
@@ -73,6 +68,25 @@ module Plate_Properties(){
          center = false);
    
     
+}
+
+module cuberad(xsize=10,ysize=10,zsize=10,diameter=2, type="all"){
+    // Example cuberad
+    // cuberad(width,length,height,diameter of radius)
+    if (type=="all"){
+    minkowski() {
+        cube([xsize-diameter/2,ysize-diameter/2,zsize-diameter/2],center=true);
+        sphere(d=diameter);
+        }
+        
+    }
+    else if (type=="corner"){
+    minkowski() {
+        cube([xsize-diameter,ysize-diameter,zsize] ,center=true);
+        cylinder(d=diameter);
+        }
+        
+    }
 }
 
 
